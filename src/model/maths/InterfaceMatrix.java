@@ -8,6 +8,6 @@ package model.maths;
  *
  * @author rober
  */
-public interface InterfaceMatrix3x3 {
+public interface InterfaceMatrix {
     
 }

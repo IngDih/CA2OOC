@@ -8,7 +8,7 @@ package model.maths;
  *
  * @author rober
  */
-public class Matrix2x2 {
+public class Matrix2x2 implements InterfaceMatrix2x2{
     
     /*
         | a1 a2 |
@@ -26,13 +26,19 @@ public class Matrix2x2 {
         this.delta = getDelta();
 
     }
-   
+    // for matrix3x3 purpose only
+    protected Matrix2x2(double a1, double a2, double a3, double a4) {
+        this.matrix = new double[] {a1,a2,a3,a4};
+        this.delta = getDelta();
 
+    }
+    
+    @Override
     public double getDelta() {
         return (this.matrix[0]*this.matrix[3] - this.matrix[1]*this.matrix[2]);
     }
 
-
+    @Override
     public Matrix2x2 getInverse() {
 
         if(this.delta == 0) {
@@ -48,6 +54,7 @@ public class Matrix2x2 {
 
     }
 
+    @Override
     public double[] getSolution() {
         Matrix2x2 temp = this.getInverse();
         double x = temp.matrix[0]*this.constants[0] + temp.matrix[1]*this.constants[1];
