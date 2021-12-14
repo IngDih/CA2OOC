@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca2oop;
+package ca2ooc;
 
 /**
  *
  * @author Peter
  */
-public class CA2OOP {
+public class CA2OOC {
 
     /**
      * @param args the command line arguments
