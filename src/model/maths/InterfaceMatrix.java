@@ -10,4 +10,10 @@ package model.maths;
  */
 public interface InterfaceMatrix {
     
+    /**
+     * 
+     * @return array of doubles with solutions for matrix
+     */
+    double[] getSolution();
+    
 }

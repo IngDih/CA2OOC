@@ -8,7 +8,7 @@ package model.maths;
  *
  * @author rober
  */
-public class Matrix3x3{
+public class Matrix3x3 implements InterfaceMatrix{
 
     private double[] matrix;
     private double delta;
@@ -90,7 +90,7 @@ public class Matrix3x3{
 
 
 
-
+    @Override
     public double[] getSolution(){
         /*
         it maps approptiate elements of the matrix
