@@ -7,7 +7,8 @@ package ca2ooc;
 
 /**
  *
- * @author Peter
+ * @author Robert Szlufik #
+ *         Ingrid Castro #2020341
  */
 public class CA2OOC {
 
