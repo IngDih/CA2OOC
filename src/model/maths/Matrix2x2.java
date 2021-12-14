@@ -34,7 +34,7 @@ public class Matrix2x2 implements InterfaceMatrix{
     }
     
     
-    private double getDelta() {
+    protected double getDelta() {
         return (this.matrix[0]*this.matrix[3] - this.matrix[1]*this.matrix[2]);
     }
 
