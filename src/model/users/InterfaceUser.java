@@ -10,4 +10,24 @@ package model.users;
  */
 public interface InterfaceUser {
     
+    /**
+     * 
+     * @param equation1
+     * @param equation2
+     * @return array of strings with solutions
+     */
+    String[] solve(String equation1, String equation2);
+
+
+    /**
+     * 
+     * @param equation1
+     * @param equation2
+     * @param equation3
+     * @return array of strings with solutions
+     */
+    String[] solve(String equation1, String equation2, String equation3);
+
+
+    
 }
