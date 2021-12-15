@@ -12,6 +12,11 @@ import javax.swing.JFrame;
  * @author Ingrid
  */
 public class AdminScreen extends javax.swing.JFrame { 
+    
+    
+    public AdminScreen() {
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
