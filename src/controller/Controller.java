@@ -4,6 +4,7 @@
  */
 package controller;
 
+import java.util.List;
 import java.util.Map;
 import model.sql.SQLConnection;
 
@@ -11,20 +12,38 @@ import model.sql.SQLConnection;
  *
  * @author rober
  */
-public class Controller {
+public class Controller implements InterfaceCredentials{
     
     SQLConnection sqlConnection;
     
     public Controller() {
         this.sqlConnection = new SQLConnection();
     }
+    
     // controller methods 
+
+    
+    @Override
+    public boolean changePassword(int id, String newPassword) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean changeFirstName(int id, String newFirstName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean changeLastName(int id, String newFirstName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     
     
     
     //admin methods 
+    
    
     
     
@@ -39,6 +58,7 @@ public class Controller {
      public boolean saveSolution(int user_id , String equations, String x, String y, String z){
         return this.sqlConnection.saveSolution(user_id, equations, x, y, z);
     }
+
      
      
      
