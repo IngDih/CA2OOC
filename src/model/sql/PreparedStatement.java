@@ -16,6 +16,7 @@ public class PreparedStatement {
         public static final String betweenStringValues = "','";
         public static final String closeString = "');";
         public static final String semiColon = ";";
+        public static final String closeStatement = "';";
 
 
 
@@ -24,7 +25,8 @@ public class PreparedStatement {
         public static final String fetchAllUsers = "SELECT * FROM users;";        
         public static final String deleteSolutions = "DELETE FROM users WHERE user_id = ";
         public static final String deleteUser = "DELETE FROM users WHERE user_id = ";
-
+        public static final String login = "SELECT password FROM users WHERE userName ='";
+        public static final String fetchId = "SELECT user_id FROM users WHERE userName = '";
 
     
     

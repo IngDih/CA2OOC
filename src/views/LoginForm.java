@@ -5,7 +5,9 @@
  */
 package views;
 
+import controller.Controller;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 
@@ -18,10 +20,17 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * Creates new form Login_Form
      */
+    private Controller controller;
         public LoginForm() {
-        initComponents();              
+        initComponents(); 
+        this.setLocationRelativeTo(null); //this makes the form centralized
+        this.controller = new Controller();
+        this.setVisible(true);
     }
     
+        public int login(String username, String password){
+        return this.controller.login(username, password);
+    }
      /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -233,7 +242,7 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldPasswordActionPerformed
 
     private void buttonSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSignInActionPerformed
-        // TODO add your handling code here:         
+        // TODO add your handling code here:
     }//GEN-LAST:event_buttonSignInActionPerformed
 
     private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed
