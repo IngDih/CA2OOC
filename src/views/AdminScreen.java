@@ -5,20 +5,72 @@
  */
 package views;
 
+import controller.Controller;
+import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.users.Admin;
 
 /**
  *
  * @author Ingrid
  */
 public class AdminScreen extends javax.swing.JFrame { 
-    
-    
+    private Admin admin;
+    private Controller controller;
     private static int admin_id;
-    public AdminScreen(int id) {
+    public AdminScreen (int id) {
         initComponents();
+        this.setLocationRelativeTo(null); //this makes the window centralized
+        this.admin = new Admin(id);
+        this.controller = new Controller();
+        this.admin_id = this.admin.getId(); 
+        this.controller.assignUser(admin_id);
     }
+     public int getID(){
+        return this.admin_id;
+    }
+    
+    private String deleteUser(int user_id) {
+        return this.controller.deleteUser(user_id);
+    }
+    
+    private Map<String,String> fetchUsers() {
+       return this.controller.getAllUsers();
+    }
+    
+    private void goToSettings(){
+        new SettingsScreen(this.getID());
+    } 
+    
+    
+    public void logout(){
+        this.admin = null;
+        this.admin_id = 0;
+        this.controller = null;
+        this.setVisible(false);
+        new LoginForm().setVisible(true);
+    }
+    
+    private void updateUserTable(){
+         // update table 
+        Map<String,String> map = this.fetchUsers();
+        DefaultTableModel tbModel = (DefaultTableModel)tableUserList.getModel();
+        // remove table content -> if we dont do that, we will display the same data many times 
+        if(tbModel.getRowCount() > 0){  
+            while(tbModel.getRowCount() > 0){
+                tbModel.removeRow(0);
+            }
+        }
 
+        // display data fetched from DB
+        for(Map.Entry<String, String> m : map.entrySet()){
+            String[] temp = m.getValue().split(";");
+            String tableData[] = new String[]{m.getKey(),temp[0],temp[1],temp[2]};
+            tbModel.addRow(tableData);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -292,15 +344,31 @@ public class AdminScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_MinimizeMouseClicked
 
     private void deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserActionPerformed
-        //insert here the action for this button
+         String message = "No user selected";
+        try{
+            
+            if(!this.userIDToDelete.getText().trim().equals("")){
+                // if user to delete is an id and not an empty string 
+                message = this.deleteUser(Integer.parseInt(this.userIDToDelete.getText()));
+                this.updateUserTable(); // update table after every deletion 
+            }
+        } catch (Exception e){
+            message = "No user found: " + this.userIDToDelete.getText().trim();
+        }finally {
+            this.userIDToDelete.setText("");
+            
+        }
+        JOptionPane.showMessageDialog(null,message);
+                                              
+
     }//GEN-LAST:event_deleteUserActionPerformed
 
     private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed
-       //insert here the action for this button
+         this.goToSettings();
     }//GEN-LAST:event_settingsActionPerformed
 
     private void logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutActionPerformed
-       //insert here the action for this button
+            this.logout();
     }//GEN-LAST:event_logOutActionPerformed
 
     private void buttonOperationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOperationsActionPerformed
