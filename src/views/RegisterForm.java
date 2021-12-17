@@ -19,10 +19,33 @@ public class RegisterForm extends javax.swing.JFrame {
      * Creates new form registerForm
      */
     Controller controller;
+
     public RegisterForm() {
         initComponents();
+        this.setLocationRelativeTo(null); //this makes the form centralized
     }
-    
+
+    public boolean createNewUser(String userName, String password, String firstName, String lastName) {
+        return this.controller.createNewUser(userName, password, firstName, lastName);
+    }
+
+    public void hideThisWindow() {
+        final RegisterForm lg = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                lg.setVisible(false);
+            }
+        });
+    }
+
+    public void showLoginWindow() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginForm().setVisible(true);
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -221,14 +244,39 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_MinimizeMouseClicked
 
     private void buttonSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSubmitActionPerformed
-        
+        // write action performed when button submit is clicked > go to user screen
+        String userName = this.fieldUsername.getText().trim();
+        String password = this.fieldPassword.getText().trim();
+        String firstName = this.fieldFirstName.getText().trim();
+        String lastName = this.fieldLastName.getText().trim();
+        boolean flag1 = false;
+        boolean flag2 = false;
+
+        System.out.println("un::" + userName + ",pass::" + password + ",fn::" + firstName + ",ln::" + lastName);
+        if (!userName.equals("") && !password.equals("") && !firstName.equals("") && !lastName.equals("")) {
+            flag2 = true;
+            flag1 = this.createNewUser(userName, password, firstName, lastName);
+            if (flag1) {
+                JOptionPane.showMessageDialog(null, "New Account Created Succesfully");
+                this.hideThisWindow();
+                this.showLoginWindow();
+            }
+        }
+        String message;
+        if (!flag2) {
+            JOptionPane.showMessageDialog(null, "Fill up all the fields");
+        }
+        if (flag2 && !flag1) {
+            JOptionPane.showMessageDialog(null, "It seems that this userName is already taken");
+        }
     }//GEN-LAST:event_buttonSubmitActionPerformed
 
     private void checkBoxShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxShowPasswordActionPerformed
-        if(checkBoxShowPassword.isSelected())
-            fieldPassword.setEchoChar((char)0);
-        else
-            fieldPassword.setEchoChar('*');        
+        if (checkBoxShowPassword.isSelected()) {
+            fieldPassword.setEchoChar((char) 0);
+        } else {
+            fieldPassword.setEchoChar('*');
+        }
     }//GEN-LAST:event_checkBoxShowPasswordActionPerformed
 
     private void fieldFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldFirstNameFocusGained

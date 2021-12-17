@@ -15,15 +15,13 @@ import model.sql.SQLConnection;
 public class Controller implements InterfaceCredentials {
 
     SQLConnection sqlConnection;
-    public int id;    
+    public int id;
 
     public Controller() {
         this.sqlConnection = new SQLConnection();
     }
 
     // controller methods \\
-    
-    
     public int login(String userName, String password) {
 
         String pass = sqlConnection.login(userName);
@@ -39,6 +37,7 @@ public class Controller implements InterfaceCredentials {
             return 0;
         }
     }
+
     //Verifies if user has the user_id of an admin
     public boolean isAdmin(int user_id) {
         if (this.sqlConnection.fetchIsAdmin(user_id) == 1) {
@@ -46,7 +45,23 @@ public class Controller implements InterfaceCredentials {
         }
         return false;
     }
-    
+
+    public void assignUser(int user_id) {
+        this.setID(user_id);
+        if (this.sqlConnection.fetchIsAdmin(user_id) == 1) {
+            // admin
+            this.admin = new Admin(user_id);
+
+        } else {
+            // regular user
+            this.user = new User(this.id);
+        }
+    }
+
+    public boolean createNewUser(String userName, String password, String firstName, String lastName) {
+        return sqlConnection.createUser(userName, password, firstName, lastName, 0);
+    }
+
     @Override
     public boolean changePassword(int id, String newPassword) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

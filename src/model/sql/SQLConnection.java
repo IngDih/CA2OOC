@@ -18,8 +18,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author rober 
- *         Ingrid
+ * @author rober Ingrid
  */
 public class SQLConnection {
 
@@ -113,16 +112,27 @@ public class SQLConnection {
         return this.query(PreparedStatement.login + userName + PreparedStatement.closeStatement).get("password");
     }
 
-    public int fetchIsAdmin(int user_id){
+    public int fetchIsAdmin(int user_id) {
         return Integer.parseInt(this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon).get("isAdmin"));
     }
-    
+
     public int getID(String userName) {
         return Integer.parseInt(query(PreparedStatement.fetchId + userName + PreparedStatement.closeStatement).get("user_id"));
     }
-    
-    public Map<String, String> fetchAdmin(){
+
+    public Map<String, String> fetchAdmin() {
         return this.query(PreparedStatement.fetchAdmin);
+    }
+
+    public boolean createUser(String userName, String password, String firstName, String lastName, int isAdmin) {
+        this.execute(PreparedStatement.insertNewUser + userName + PreparedStatement.betweenValues + password + PreparedStatement.betweenValues
+                + firstName + PreparedStatement.betweenValues + lastName + PreparedStatement.closeEquations + isAdmin + PreparedStatement.closeInt);
+        if (this.fetchUser(this.getID(userName)) != null) {
+            //we are able to fetch user from DB, therefore user was succesfully added
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private boolean execute(String preparedStatement) {
