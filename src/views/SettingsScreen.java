@@ -5,6 +5,7 @@
  */
 package views;
 
+import controller.Controller;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -17,11 +18,40 @@ public class SettingsScreen extends javax.swing.JFrame {
     /**
      * Creates new form settingsScreen
      */
-    
-       public SettingsScreen(int id) {
+    private static int user_id;
+    Controller controller;
+
+    public SettingsScreen(int id) {
         initComponents();
+        this.setLocationRelativeTo(null); //this makes the window centralized
+        this.user_id = id;
+        this.controller = new Controller();
+        this.controller.assignUser(user_id);
+        this.setVisible(true);
     }
-    
+
+    public boolean changeFirstName(String s) {
+        return controller.changeFirstName(this.user_id, s);
+    }
+
+    public boolean changeLastname(String s) {
+        return controller.changeLastName(this.user_id, s);
+    }
+
+    public boolean changePassword(String s) {
+        return controller.changePassword(this.user_id, s);
+    }
+
+    public void infoBox(String message) {
+        final SettingsScreen s = this;
+        JOptionPane.showMessageDialog(null, message);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                s.setVisible(false);
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -196,14 +226,42 @@ public class SettingsScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_MinimizeMouseClicked
 
     private void checkBoxShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxShowPasswordActionPerformed
-        if(checkBoxShowPassword.isSelected())
-            fieldPassword.setEchoChar((char)0);
-        else
+        if (checkBoxShowPassword.isSelected()) {
+            fieldPassword.setEchoChar((char) 0);
+        } else {
             fieldPassword.setEchoChar('*');
+        }
     }//GEN-LAST:event_checkBoxShowPasswordActionPerformed
 
     private void buttonSubmitChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSubmitChangesActionPerformed
-        // TODO add your handling code here:
+        String message = "The following attributes were changed:";
+        String firstName;
+        String lastName;
+        String password;
+        if (!fieldFirstName.getText().equals("")) {
+            firstName = fieldFirstName.getText().trim();
+            if (this.changeFirstName(firstName)) {
+                message += " 'First Name'";
+            }
+        }
+        if (!fieldLastName.getText().equals("")) {
+            lastName = fieldLastName.getText().trim();
+            if (this.changeLastname(lastName)) {
+                message += " 'Last Name'";
+            }
+        }
+        if (!fieldPassword.equals("")) {
+            password = fieldPassword.getText().trim();
+            if (this.changePassword(password)) {
+                message += " 'Password'";
+            }
+        }
+
+        if (message.equals("")) {
+            message += "None";
+        }
+
+        this.infoBox(message);
     }//GEN-LAST:event_buttonSubmitChangesActionPerformed
 
     /**

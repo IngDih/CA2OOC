@@ -135,6 +135,35 @@ public class SQLConnection {
         }
     }
 
+    public boolean changePassword(int user_id, String newPassword) {
+        this.execute(PreparedStatement.updatePassword + newPassword + PreparedStatement.whereId + user_id + ";");
+        Map<String, String> map = this.fetchUser(user_id);
+        if (map.get("password").equals(newPassword)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean changeFirstName(int user_id, String newFirstName) {
+        this.execute(PreparedStatement.updateFirstName + newFirstName + PreparedStatement.whereId + user_id + ";");
+        Map<String, String> map = this.fetchUser(user_id);
+        if (map.get("firstName").equals(newFirstName)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean changeLastName(int user_id, String newLastName) {
+        this.execute(PreparedStatement.updateLastname + newLastName + PreparedStatement.whereId + user_id + ";");
+        Map<String, String> map = this.fetchUser(user_id);
+        if (map.get("lastName").equals(newLastName)) {
+            return true;
+        }
+        return false;
+
+    }
+
     private boolean execute(String preparedStatement) {
         try {
             Connection connection = DriverManager.getConnection(this.dbServer, this.user, this.databasePassword);

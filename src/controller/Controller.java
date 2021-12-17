@@ -72,17 +72,17 @@ public class Controller implements InterfaceCredentials {
 
     @Override
     public boolean changePassword(int id, String newPassword) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sqlConnection.changePassword(id, newPassword);
     }
 
     @Override
     public boolean changeFirstName(int id, String newFirstName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sqlConnection.changeFirstName(id, newFirstName);
     }
 
     @Override
-    public boolean changeLastName(int id, String newFirstName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean changeLastName(int id, String newLastName) {
+        return sqlConnection.changeLastName(id, newLastName);
     }
     //admin methods 
 
