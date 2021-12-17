@@ -106,28 +106,39 @@ public class SQLConnection {
         }
         return map;
     }
-    
+
     private Map<String, List<String>> queryResults(String preparedStatement) {
-            Map<String, List<String>> result = new HashMap<>();
-        try { 
+        Map<String, List<String>> result = new HashMap<>();
+        try {
             Connection connection = DriverManager.getConnection(this.dbServer, this.user, this.databasePassword);
             Statement statement = connection.createStatement();
 
-            ResultSet rs =  statement.executeQuery(preparedStatement);
+            ResultSet rs = statement.executeQuery(preparedStatement);
             ResultSetMetaData data = rs.getMetaData();
             System.out.println(data.getColumnCount());
-            while(rs.next()){
+            while (rs.next()) {
                 List<String> list = new ArrayList<>();
-                for(int i = 1; i <= data.getColumnCount(); i++){
+                for (int i = 1; i <= data.getColumnCount(); i++) {
                     list.add(rs.getString(i));
                 }
-                result.put(rs.getString("result_id"),list);
+                result.put(rs.getString("result_id"), list);
             }
-        }catch(Exception e) {
-            JOptionPane.showMessageDialog(null,"There might be a problem with database, " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "There might be a problem with database, " + e.getMessage());
         }
 
         return result;
+    }
+
+    private boolean execute(String preparedStatement) {
+        try {
+            Connection connection = DriverManager.getConnection(this.dbServer, this.user, this.databasePassword);
+            Statement statement = connection.createStatement();
+            return statement.execute(preparedStatement);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "There might be a problem with database, " + e.getMessage());
+        }
+        return false;
     }
 
     public String login(String userName) {
@@ -156,8 +167,8 @@ public class SQLConnection {
             return false;
         }
     }
-    
-    public Map<String,List<String>> getOperationsByUser(int user_id){
+
+    public Map<String, List<String>> getOperationsByUser(int user_id) {
         return this.queryResults(PreparedStatement.queryResultsById + user_id + PreparedStatement.semiColon);
     }
 
@@ -188,19 +199,8 @@ public class SQLConnection {
         return false;
     }
 
-    private boolean execute(String preparedStatement) {
-        try {
-            Connection connection = DriverManager.getConnection(this.dbServer, this.user, this.databasePassword);
-            Statement statement = connection.createStatement();
-            return statement.execute(preparedStatement);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "There might be a problem with database, " + e.getMessage());
-        }
-        return false;
-    }
-
     public Map<String, String> fetchUser(int user_id) {
-        return  this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon);
+        return this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon);
     }
 
     // admin methods 
