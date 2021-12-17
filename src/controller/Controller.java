@@ -65,8 +65,8 @@ public class Controller implements InterfaceCredentials {
     public boolean createNewUser(String userName, String password, String firstName, String lastName) {
         return sqlConnection.createUser(userName, password, firstName, lastName, 0);
     }
-    
-    private void setID(int user_id){
+
+    private void setID(int user_id) {
         this.id = user_id;
     }
 
@@ -86,14 +86,27 @@ public class Controller implements InterfaceCredentials {
     }
     //admin methods 
 
-    //user mathods 
-    // needs to be implemented 
-    public Map<String, String> fetchUser(int user_id) {
-        return this.sqlConnection.fetchUser(user_id);
-    }
-
+    
+    
+    //user methods 
     public boolean saveSolution(int user_id, String equations, String x, String y, String z) {
         return this.sqlConnection.saveSolution(user_id, equations, x, y, z);
     }
 
+    public Map<String, String> fetchUser(int user_id) {
+        return this.sqlConnection.fetchUser(user_id);
+    }
+
+    public Map<String, List<String>> getOperationsByID(int user_id) {
+        return this.sqlConnection.getOperationsByUser(user_id);
+    }
+
+    public String[] solve(String equation1, String equation2, String equation3) {
+        return this.user.solve(equation1, equation2, equation3);
+    }
+
+    public String[] solve(String equation1, String equation2) {
+        return this.user.solve(equation1, equation2);
+    }
+    
 }

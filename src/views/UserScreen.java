@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import model.users.User;
 
 /**
  *
@@ -24,14 +24,133 @@ public class UserScreen extends javax.swing.JFrame {
      *
      */
     private static int user_id;
-    
+    private Controller controller;
+    private User user;
+
     public UserScreen(int id) {
         initComponents();
+        this.setLocationRelativeTo(null); //this makes the window centralized
+        this.user_id = id;
+        this.controller = new Controller();
+        this.controller.assignUser(user_id);
     }
-  
-    
-    
-    
+
+    private int getID() {
+        return this.user_id;
+    }
+
+    private void goToSettings() {
+        new SettingsScreen(this.getID());
+    }
+
+    private void logout() {
+        this.user = null;
+        this.user_id = 0;
+        this.controller = null;
+        this.hideThisWindow();
+        this.loginScreen();
+    }
+
+    private void hideThisWindow() {
+        final UserScreen us = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                us.setVisible(false);
+            }
+        });
+    }
+
+    private void loginScreen() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginForm().setVisible(true);
+            }
+        });
+    }
+
+    private String[] solve(String eq1, String eq2, String eq3) {
+        if (eq3.equals("")) {
+            return this.controller.solve(eq1, eq2);
+        } else {
+            return this.controller.solve(eq1, eq2, eq3);
+        }
+    }
+
+    private boolean validateEq2v(String equation) {
+    //        AX+By+C=0
+        String regEx = "\\d+x{1}.\\d+y{1}.\\d+.0{1}";
+        return equation.matches(regEx);
+    }
+
+    private boolean validateEq3v(String equation) {
+    //        AX+By+Cz+D=0
+        String regEx = "\\d+x{1}.\\d+y{1}.\\d+z{1}.\\d+.0{1}";
+        return equation.matches(regEx);
+
+    }
+
+    private void updateResults(String[] results) {
+        this.valueForX.setText(results[0]);
+        this.valueForY.setText(results[1]);
+        this.valueForZ.setText(results[2]);
+        updateHistory();
+    }
+
+    private void updateHistory() {
+        // update table 
+        Map<String, List<String>> map = this.controller.getOperationsByID(user_id);
+        DefaultTableModel tbModel = (DefaultTableModel) tableOfUserHistory.getModel();
+        // remove table content -> if we dont, we will display the same data many times 
+        if (tbModel.getRowCount() > 0) {
+            while (tbModel.getRowCount() > 0) {
+                tbModel.removeRow(0);
+            }
+        }
+
+        // display data fetched from DB
+        for (Map.Entry<String, List<String>> m : map.entrySet()) {
+            List<String> list = m.getValue();
+
+            String[] equationsData = list.get(1).split(";");
+            StringBuilder equationsStr = new StringBuilder("1) ").append(equationsData[0]).append(", 2) ").append(equationsData[1]);
+            StringBuilder results = new StringBuilder("Value of x::").append(list.get(2)).append(", Value of y::").append(list.get(3));
+
+            if (equationsData.length > 2) {
+                results.append(", Value of z::").append(list.get(4));
+                equationsStr.append(", 3) ").append(equationsData[2]);
+            }
+            String tableData[] = new String[]{equationsStr.toString(), results.toString()};
+            tbModel.addRow(tableData);
+        }
+    }
+
+    private void solveEquations() {
+        String eq1 = equation1.getText().trim();
+        String eq2 = equation2.getText().trim();
+        String eq3 = equation3.getText().trim();
+        if (eq3.equals("")) {
+            if (!this.validateEq2v(eq1)) {
+                JOptionPane.showMessageDialog(null, "Equation 1 is in the wrong format.\nPlease follow format: Ax+By+C=0 ");
+            } else if (!this.validateEq2v(eq2)) {
+                JOptionPane.showMessageDialog(null, "Equation 2 is in the wrong format.\nPlease follow format: Ax+By+C=0 ");
+            } else {
+                // both equations are in the right format
+                this.updateResults(this.solve(eq1, eq2, eq3));
+            }
+        } else {
+            if (!this.validateEq3v(eq1)) {
+                JOptionPane.showMessageDialog(null, "Equation 1 is in the wrong format.\nPlease follow format: Ax+By+Cz+D=0 ");
+            } else if (!this.validateEq3v(eq2)) {
+                JOptionPane.showMessageDialog(null, "Equation 2 is in the wrong format.\nPlease follow format: Ax+By+Cz+D=0 ");
+            } else if (!this.validateEq3v(eq3)) {
+                JOptionPane.showMessageDialog(null, "Equation 3 is in the wrong format.\nPlease follow format: Ax+By+Cz+D=0 ");
+            } else {
+                // all equations are in the right format
+                this.updateResults(this.solve(eq1, eq2, eq3));
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -359,15 +478,18 @@ public class UserScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_MinimizeMouseClicked
 
     private void buttonSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSolveActionPerformed
-        // TODO add your handling code here
+        //solve entered equation 
+        this.solveEquations();
+       // update table
+        this.updateHistory();     
     }//GEN-LAST:event_buttonSolveActionPerformed
 
     private void buttonUserSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUserSettingsActionPerformed
-        // TODO add your handling code here
+        this.goToSettings();
     }//GEN-LAST:event_buttonUserSettingsActionPerformed
 
     private void buttonLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLogOutActionPerformed
-        // TODO add your handling code here
+        this.logout();
     }//GEN-LAST:event_buttonLogOutActionPerformed
 
     /**
