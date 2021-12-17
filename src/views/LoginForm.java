@@ -31,6 +31,33 @@ public class LoginForm extends javax.swing.JFrame {
         public int login(String username, String password){
         return this.controller.login(username, password);
     }
+        
+        public void welcomeAdmin(int id) {
+        JOptionPane.showMessageDialog(null, "Welcome, Admin!");
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new AdminScreen(id).setVisible(true);
+                }
+            });
+    }
+    
+    public void welcomeUser(int id) {
+        JOptionPane.showMessageDialog(null, "Welcome "  + fieldUsername.getText() + "!");
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new UserScreen(id).setVisible(true);
+                }
+            });
+    }
+    
+    public void hideThisWindow() {
+        final LoginForm lg = this;    
+        java.awt.EventQueue.invokeLater(new Runnable() {
+               public void run() {
+                   lg.setVisible(false);
+               }
+           });
+    }
      /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,7 +269,18 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldPasswordActionPerformed
 
     private void buttonSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSignInActionPerformed
-        // TODO add your handling code here:
+        int id = login(fieldUsername.getText().trim(),this.fieldPassword.getText().trim());
+        if(id == 0){
+            JOptionPane.showMessageDialog(null, "No User Found, check your password or register.");
+        }
+        else if(this.controller.isAdmin(id) ){
+            this.welcomeAdmin(id);
+            this.hideThisWindow();
+        } else {
+//            // id > 1 -> we know it's regular user
+            this.welcomeUser(id);
+            this.hideThisWindow();
+        }
     }//GEN-LAST:event_buttonSignInActionPerformed
 
     private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed

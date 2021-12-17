@@ -120,6 +120,10 @@ public class SQLConnection {
     public int getID(String userName) {
         return Integer.parseInt(query(PreparedStatement.fetchId + userName + PreparedStatement.closeStatement).get("user_id"));
     }
+    
+    public Map<String, String> fetchAdmin(){
+        return this.query(PreparedStatement.fetchAdmin);
+    }
 
     private boolean execute(String preparedStatement) {
         try {

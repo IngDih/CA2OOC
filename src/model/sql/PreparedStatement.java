@@ -28,6 +28,7 @@ public class PreparedStatement {
         public static final String login = "SELECT password FROM users WHERE userName ='";
         public static final String fetchId = "SELECT user_id FROM users WHERE userName = '";
         public static final String fetchUserByID = "SELECT * FROM users WHERE user_id = ";
+        public static final String fetchAdmin = "SELECT * FROM users WHERE user_id = 1;";
 
     
     

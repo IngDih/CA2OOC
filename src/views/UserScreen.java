@@ -23,11 +23,12 @@ public class UserScreen extends javax.swing.JFrame {
      * Creates new form userScreen
      *
      */
+    private static int user_id;
     
-    public UserScreen() {
+    public UserScreen(int id) {
         initComponents();
     }
-    
+  
     
     
     
@@ -400,7 +401,7 @@ public class UserScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserScreen().setVisible(true);
+                new UserScreen(user_id).setVisible(true);
             }
         });
     }

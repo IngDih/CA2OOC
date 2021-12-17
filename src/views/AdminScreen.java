@@ -14,7 +14,8 @@ import javax.swing.JFrame;
 public class AdminScreen extends javax.swing.JFrame { 
     
     
-    public AdminScreen() {
+    private static int admin_id;
+    public AdminScreen(int id) {
         initComponents();
     }
 
@@ -341,7 +342,7 @@ public class AdminScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminScreen().setVisible(true);
+                new AdminScreen(admin_id).setVisible(true);
             }
         });
     }
