@@ -29,7 +29,7 @@ public class SQLConnection {
     public SQLConnection() {
         this.dbServer = "jdbc:mysql://localhost:3306/ca2";
         this.user = "root";
-//        this.databasePassword = "Robcio10"; // robert's password
+//      this.databasePassword = "Robcio10"; // robert's password
         this.databasePassword = "root"; // ingrid's password
 
     }
@@ -103,9 +103,31 @@ public class SQLConnection {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "There might be a problem with database, " + e.getMessage());
-
         }
         return map;
+    }
+    
+    private Map<String, List<String>> queryResults(String preparedStatement) {
+            Map<String, List<String>> result = new HashMap<>();
+        try { 
+            Connection connection = DriverManager.getConnection(this.dbServer, this.user, this.databasePassword);
+            Statement statement = connection.createStatement();
+
+            ResultSet rs =  statement.executeQuery(preparedStatement);
+            ResultSetMetaData data = rs.getMetaData();
+            System.out.println(data.getColumnCount());
+            while(rs.next()){
+                List<String> list = new ArrayList<>();
+                for(int i = 1; i <= data.getColumnCount(); i++){
+                    list.add(rs.getString(i));
+                }
+                result.put(rs.getString("result_id"),list);
+            }
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"There might be a problem with database, " + e.getMessage());
+        }
+
+        return result;
     }
 
     public String login(String userName) {
@@ -134,6 +156,10 @@ public class SQLConnection {
             return false;
         }
     }
+    
+    public Map<String,List<String>> getOperationsByUser(int user_id){
+        return this.queryResults(PreparedStatement.queryResultsById + user_id + PreparedStatement.semiColon);
+    }
 
     public boolean changePassword(int user_id, String newPassword) {
         this.execute(PreparedStatement.updatePassword + newPassword + PreparedStatement.whereId + user_id + ";");
@@ -142,7 +168,6 @@ public class SQLConnection {
             return true;
         }
         return false;
-
     }
 
     public boolean changeFirstName(int user_id, String newFirstName) {
@@ -161,7 +186,6 @@ public class SQLConnection {
             return true;
         }
         return false;
-
     }
 
     private boolean execute(String preparedStatement) {
@@ -175,9 +199,8 @@ public class SQLConnection {
         return false;
     }
 
-    // to implement ####################################
     public Map<String, String> fetchUser(int user_id) {
-        return null;
+        return  this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon);
     }
 
     // admin methods 
@@ -213,7 +236,6 @@ public class SQLConnection {
     public boolean saveSolution(int user_id, String equations, String x, String y, String z) {
         return this.execute(PreparedStatement.saveSolution + user_id + PreparedStatement.coma
                 + equations + PreparedStatement.betweenStringValues + x + PreparedStatement.betweenStringValues + y + PreparedStatement.betweenStringValues + z + PreparedStatement.closeString);
-
     }
 
 }

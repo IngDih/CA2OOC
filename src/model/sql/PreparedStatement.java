@@ -37,5 +37,6 @@ public class PreparedStatement {
     //  results table 
     public static final String fetchAllOperations = "SELECT * FROM results;";
     public static final String saveSolution = "INSERT INTO results (user_id, setOfEquations, valueOfX, valueOfY, valueOfZ) VALUES (";
+    public static final String queryResultsById = "SELECT result_id,setOfEquations,valueOfX,valueOfY,valueOfZ FROM results WHERE user_id = ";
 
 }
