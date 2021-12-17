@@ -7,6 +7,8 @@ package controller;
 import java.util.List;
 import java.util.Map;
 import model.sql.SQLConnection;
+import model.users.Admin;
+import model.users.User;
 
 /**
  *
@@ -16,6 +18,8 @@ public class Controller implements InterfaceCredentials {
 
     SQLConnection sqlConnection;
     public int id;
+    Admin admin;
+    public User user;
 
     public Controller() {
         this.sqlConnection = new SQLConnection();
@@ -60,6 +64,10 @@ public class Controller implements InterfaceCredentials {
 
     public boolean createNewUser(String userName, String password, String firstName, String lastName) {
         return sqlConnection.createUser(userName, password, firstName, lastName, 0);
+    }
+    
+    private void setID(int user_id){
+        this.id = user_id;
     }
 
     @Override
