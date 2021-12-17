@@ -33,7 +33,8 @@ public class SQLConnection {
         this.databasePassword = "root"; // ingrid's password
 
     }
-
+    
+    // database interaction methods 
     private Map<String, String> query(String preparedStatement) {
         Map<String, String> result = new HashMap<>();
         try {
@@ -54,8 +55,7 @@ public class SQLConnection {
         }
         return result;
     }
-
-    // database interaction methods 
+    
     private Map<String, String> queryAll(String preparedStatement) {
 
         Map<String, String> map = new HashMap<>();
@@ -77,7 +77,6 @@ public class SQLConnection {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "There might be a problem with database, " + e.getMessage());
-
         }
         return map;
     }
@@ -141,6 +140,7 @@ public class SQLConnection {
         return false;
     }
 
+    //login methods
     public String login(String userName) {
         return this.query(PreparedStatement.login + userName + PreparedStatement.closeStatement).get("password");
     }
@@ -156,7 +156,12 @@ public class SQLConnection {
     public Map<String, String> fetchAdmin() {
         return this.query(PreparedStatement.fetchAdmin);
     }
-
+    
+    public Map<String, String> fetchUser(int user_id) {
+        return this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon);
+    }
+    
+    //Register method
     public boolean createUser(String userName, String password, String firstName, String lastName, int isAdmin) {
         this.execute(PreparedStatement.insertNewUser + userName + PreparedStatement.betweenValues + password + PreparedStatement.betweenValues
                 + firstName + PreparedStatement.betweenValues + lastName + PreparedStatement.closeEquations + isAdmin + PreparedStatement.closeInt);
@@ -170,8 +175,9 @@ public class SQLConnection {
 
     public Map<String, List<String>> getOperationsByUser(int user_id) {
         return this.queryResults(PreparedStatement.queryResultsById + user_id + PreparedStatement.semiColon);
-    }
-
+    }   
+    
+    //Settings screen methods
     public boolean changePassword(int user_id, String newPassword) {
         this.execute(PreparedStatement.updatePassword + newPassword + PreparedStatement.whereId + user_id + ";");
         Map<String, String> map = this.fetchUser(user_id);
@@ -197,11 +203,7 @@ public class SQLConnection {
             return true;
         }
         return false;
-    }
-
-    public Map<String, String> fetchUser(int user_id) {
-        return this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon);
-    }
+    }    
 
     // admin methods 
     public String deleteUser(int user_id) {
