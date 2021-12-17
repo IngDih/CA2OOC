@@ -113,6 +113,10 @@ public class SQLConnection {
         return this.query(PreparedStatement.login + userName + PreparedStatement.closeStatement).get("password");
     }
 
+    public int fetchIsAdmin(int user_id){
+        return Integer.parseInt(this.query(PreparedStatement.fetchUserByID + user_id + PreparedStatement.semiColon).get("isAdmin"));
+    }
+    
     public int getID(String userName) {
         return Integer.parseInt(query(PreparedStatement.fetchId + userName + PreparedStatement.closeStatement).get("user_id"));
     }

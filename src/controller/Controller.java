@@ -15,13 +15,15 @@ import model.sql.SQLConnection;
 public class Controller implements InterfaceCredentials {
 
     SQLConnection sqlConnection;
-    public int id;
+    public int id;    
 
     public Controller() {
         this.sqlConnection = new SQLConnection();
     }
 
-    // controller methods 
+    // controller methods \\
+    
+    
     public int login(String userName, String password) {
 
         String pass = sqlConnection.login(userName);
@@ -33,31 +35,36 @@ public class Controller implements InterfaceCredentials {
 
         if (this.id != 0) {
             return this.id;
-        }
-       else {
+        } else {
             return 0;
         }
     }
-
-        @Override
-        public boolean changePassword(int id, String newPassword) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //Verifies if user has the user_id of an admin
+    public boolean isAdmin(int user_id) {
+        if (this.sqlConnection.fetchIsAdmin(user_id) == 1) {
+            return true;
         }
-
-        @Override
-        public boolean changeFirstName(int id, String newFirstName) {
+        return false;
+    }
+    
+    @Override
+    public boolean changePassword(int id, String newPassword) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+    }
 
-        @Override
-        public boolean changeLastName(int id, String newFirstName) {
+    @Override
+    public boolean changeFirstName(int id, String newFirstName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-        //admin methods 
+    }
 
-        //user mathods 
+    @Override
+    public boolean changeLastName(int id, String newFirstName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    //admin methods 
 
-        // needs to be implemented 
+    //user mathods 
+    // needs to be implemented 
     public Map<String, String> fetchUser(int user_id) {
         return this.sqlConnection.fetchUser(user_id);
     }
