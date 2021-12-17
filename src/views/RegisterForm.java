@@ -23,6 +23,7 @@ public class RegisterForm extends javax.swing.JFrame {
     public RegisterForm() {
         initComponents();
         this.setLocationRelativeTo(null); //this makes the form centralized
+        controller = new Controller();
     }
 
     public boolean createNewUser(String userName, String password, String firstName, String lastName) {
