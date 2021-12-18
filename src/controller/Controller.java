@@ -87,6 +87,19 @@ public class Controller implements InterfaceCredentials {
     //admin methods 
 
     
+    public Map<String,String> getAllUsers() {
+        return this.admin.getAllUsers();
+    }
+    
+    public String deleteUser(int user_id) {
+        return this.admin.deleteUser(user_id);
+            
+    }
+    
+    public Map<String,List<String>> getAllOperations() {
+        return this.admin.getAllOperations();
+    }
+    
     
     //user methods 
     public boolean saveSolution(int user_id, String equations, String x, String y, String z) {
