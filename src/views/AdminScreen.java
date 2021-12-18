@@ -6,6 +6,7 @@
 package views;
 
 import controller.Controller;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -68,6 +69,40 @@ public class AdminScreen extends javax.swing.JFrame {
         for(Map.Entry<String, String> m : map.entrySet()){
             String[] temp = m.getValue().split(";");
             String tableData[] = new String[]{m.getKey(),temp[0],temp[1],temp[2]};
+            tbModel.addRow(tableData);
+        }
+    }
+    
+    
+    private void updateOperationTable(){
+        Map<String,List<String>> map = this.controller.getAllOperations();
+        DefaultTableModel tbModel = (DefaultTableModel)tableUserOperations.getModel();
+        // remove table content -> if we dont, we will display the same data many times 
+        if(tbModel.getRowCount() > 0){  
+            while(tbModel.getRowCount() > 0){
+                tbModel.removeRow(0);
+            }
+        }
+
+        // display data fetched from DB
+        for(Map.Entry<String, List<String>> m : map.entrySet()){
+            System.out.println(m.getKey() + ";;" + m.getValue());
+            // every entry value is a an array of [0]user_id, [1]setOfEquations, [2]valueofx, [3]valueofy, [4]valueofz
+            
+            
+            
+            String[] equationsData = m.getValue().get(1).split(";");
+            // its either Ax+By+C=0;Ax+By+C=0;- OR Ax+By+Cz+D=0;Ax+By+Cz+D=0;Ax+By+Cz+D=0
+            StringBuilder equationsStr = new StringBuilder("1) ").append(equationsData[0]).append(", 2) ").append(equationsData[1]);
+            StringBuilder results = new StringBuilder("Value of x::").append(m.getValue().get(2)).append(", Value of y::").append(m.getValue().get(3));
+           
+            if(equationsData.length > 2){
+                results.append(", Value of z::").append(m.getValue().get(4));
+                equationsStr.append(", 3) ").append(equationsData[2]);
+            }
+            
+            String tableData[] = new String[]{m.getValue().get(0),equationsStr.toString(), results.toString()};
+
             tbModel.addRow(tableData);
         }
     }
@@ -372,12 +407,12 @@ public class AdminScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_logOutActionPerformed
 
     private void buttonOperationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOperationsActionPerformed
-       //insert here the action for this button      
+          this.updateOperationTable();
         
     }//GEN-LAST:event_buttonOperationsActionPerformed
 
     private void userListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userListActionPerformed
-       //insert here the action for this button
+        this.updateUserTable();
     }//GEN-LAST:event_userListActionPerformed
 
     /**
