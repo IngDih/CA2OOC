@@ -62,7 +62,7 @@ public class Controller implements InterfaceCredentials {
             this.user = new User(this.id);
         }
     }
-
+    //Creates a new user on the database table
     public boolean createNewUser(String userName, String password, String firstName, String lastName) {
         return sqlConnection.createUser(userName, password, firstName, lastName, 0);
     }
@@ -85,9 +85,8 @@ public class Controller implements InterfaceCredentials {
     public boolean changeLastName(int id, String newLastName) {
         return sqlConnection.changeLastName(id, newLastName);
     }
-    //admin methods 
-
     
+    //admin methods     
     public Map<String,String> getAllUsers() {
         return this.admin.getAllUsers();
     }

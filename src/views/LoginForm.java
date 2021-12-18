@@ -30,7 +30,8 @@ public class LoginForm extends javax.swing.JFrame {
     public int login(String username, String password) {
         return this.controller.login(username, password);
     }
-
+    
+    //Confirmation message
     public void welcomeAdmin(int id) {
         JOptionPane.showMessageDialog(null, "Welcome, Admin!");
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -39,7 +40,8 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    //confirmation message
     public void welcomeUser(int id) {
         JOptionPane.showMessageDialog(null, "Welcome " + fieldUsername.getText() + "!");
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -38,7 +38,7 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
     }
-
+    //The user is directed back to the login window for authentication
     public void showLoginWindow() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
