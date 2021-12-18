@@ -13,6 +13,7 @@ import model.users.User;
 /**
  *
  * @author rober
+ *         Ingrid
  */
 public class Controller implements InterfaceCredentials {
 

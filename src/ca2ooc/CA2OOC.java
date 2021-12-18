@@ -5,10 +5,10 @@
  */
 package ca2ooc;
 
+import views.LoginForm;
 /**
  *
- * @author Robert Szlufik #
- *         Ingrid Castro #2020341
+ * @author Robert Szlufik #2020358 Ingrid Castro #2020341
  */
 public class CA2OOC {
 
@@ -16,7 +16,7 @@ public class CA2OOC {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        LoginForm loginScreen = new LoginForm();
     }
-    
+
 }
